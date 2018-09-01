@@ -13,7 +13,6 @@
 	right: 0px;
 	left: 0px;
 	margin : 0px;
-	height : 15%;
 }
 .TextoLlamadaEntrante h3 {
 	font-size: 100%;
@@ -42,9 +41,7 @@
     background-color: rgb(255, 0, 0); /* rojo */
 	float: right;
 }
-.botones .material-icons {
-	font-size:40px;
-}
+
 body {
-    background-color: LightGray;
+    background-image: linear-gradient(to bottom, black, #212121);
 }
