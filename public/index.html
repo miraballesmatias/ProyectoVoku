@@ -37,31 +37,37 @@
 	<link href="https://placehold.it/320x460" media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 1)"
 	 rel="apple-touch-startup-image"> -->
 
-	<link rel="stylesheet" type="text/css" href="estilosMaqueta.css">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/solid.css" integrity="sha384-VGP9aw4WtGH/uPAOseYxZ+Vz/vaTb1ehm1bwx92Fm8dTrE+3boLfF1SpAtB1z7HW"
 	 crossorigin="anonymous">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/fontawesome.css" integrity="sha384-1rquJLNOM3ijoueaaeS5m+McXPJCGdr5HcA03/VHXxcp2kX2sUrQDmFc3jR5i/C7"
 	 crossorigin="anonymous">
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<link rel="stylesheet" type="text/css" href="estilosMaqueta.css">
 </head>
 
 <body>
-	<div style="height:100vh">
-		<div class="ImagenLlamada">
-			<img src="beto.jpg" alt="ImagenLlamada">
+	<div class="w3-container gradient">
+		<div class="w3-center">
+			<img class="w3-circle w3-image imagen-de-llamada" src="asset/img/beto.jpg" alt="Imagen de llamada entrante">
+
 		</div>
 
-		<div class="TextoLlamadaEntrante">
-			<p>
-				<h3>LLAMADA ENTRANTE DE:"BETO"</h3>
-			</p>
-		</div>
-
-		<div class="botones">
-			<button class="botonContestar"><i class="fas fa-phone fa-10x"></i></button>
-			<button class="botonCortar"><i class="fas fa-phone fa-10x" style="transform: rotate(225deg)"></i></button>
-		</div>
+		<button class="w3-display-bottomleft w3-button w3-circle w3-green botonLlamada" onclick="document.getElementById('phone-ring').remove()"><i class="fas fa-phone fa-3x"></i></button>
+		<button class="w3-display-bottomright w3-button w3-circle w3-red botonLlamada"><i class="fas fa-phone fa-3x" style="transform: rotate(225deg)"></i></button>
 	</div>
+
+	<!-- Oculto -->
+	<audio id="phone-ring">
+		<source src="asset/audio/phone-ring.mp3" type="audio/mpeg">
+	</audio>
 </body>
+
+<script>
+	let audio = document.getElementById("phone-ring");
+	audio.addEventListener('ended', function () {
+		this.currentTime = 0;
+		this.play();
+	}, false);
+	audio.play();	</script>
 
 </html>

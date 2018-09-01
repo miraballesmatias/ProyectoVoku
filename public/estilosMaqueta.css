@@ -1,47 +1,17 @@
-.ImagenLlamada img{
-	border-radius: 50%;
-	width : 80%; 
-	height : 50%;
-	display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-.TextoLlamadaEntrante {
-	background-color: Gray;
-	opacity: 0.5;
-	/*position: fixed;*/
-	right: 0px;
-	left: 0px;
-	margin : 0px;
-}
-.TextoLlamadaEntrante h3 {
-	font-size: 100%;
-	text-align: center;
-}
-.botones button {
-	border: none;
-    color: white;
-    padding: 5%;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 20%;
-	margin: 20px;
-    cursor: pointer;
-	border-radius: 50%;
-	position: relative;
-	
-}
-.botones .botonContestar {
-    background-color: rgb(60, 179, 113); /* verde */
-	float: left;
-
-}
-.botones .botonCortar {
-    background-color: rgb(255, 0, 0); /* rojo */
-	float: right;
+.botonLlamada{
+	padding:5%;
+	margin: 10vw;
 }
 
 body {
-    background-image: linear-gradient(to bottom, black, #212121);
+	background-color: #212121;
+}
+
+.gradient {
+	height: 85vh;
+	background-image: linear-gradient(to bottom, black, #212121);
+}
+
+.imagen-de-llamada{
+	padding: 10vw;
 }
