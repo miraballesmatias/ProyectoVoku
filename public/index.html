@@ -46,14 +46,17 @@
 </head>
 
 <body>
-	<div class="w3-container gradient">
-		<div class="w3-center">
-			<img class="w3-circle w3-image imagen-de-llamada" src="asset/img/beto.jpg" alt="Imagen de llamada entrante">
 
+	<div class="w3-container gradient w3-animate-opacity">
+		<div class="w3-center">
+			<img class="w3-circle w3-image imagen-de-llamada w3-animate-zoom" src="asset/img/beto.jpg" alt="Imagen de llamada entrante">
+			<p class="w3-animate-fading" style="color:white">Llamada entrante de beto</p>
 		</div>
 
-		<button class="w3-display-bottomleft w3-button w3-circle w3-green botonLlamada" onclick="document.getElementById('phone-ring').remove()"><i class="fas fa-phone fa-3x"></i></button>
-		<button class="w3-display-bottomright w3-button w3-circle w3-red botonLlamada"><i class="fas fa-phone fa-3x" style="transform: rotate(225deg)"></i></button>
+		<div class="w3-animate-opacity">
+			<button class="w3-display-bottomleft w3-button w3-circle w3-green botonLlamada" onclick="init()"><i class="fas fa-phone fa-3x"></i></button>
+			<button class="w3-display-bottomright w3-button w3-circle w3-red botonLlamada" onclick="document.getElementById('phone-ring').pause()"><i class="fas fa-phone fa-3x" style="transform: rotate(225deg)"></i></button>
+		</div>
 	</div>
 
 	<!-- Oculto -->
@@ -63,11 +66,14 @@
 </body>
 
 <script>
-	let audio = document.getElementById("phone-ring");
-	audio.addEventListener('ended', function () {
-		this.currentTime = 0;
-		this.play();
-	}, false);
-	audio.play();	</script>
+	function init() {
+		let audio = document.getElementById("phone-ring");
+		audio.addEventListener('ended', function () {
+			this.currentTime = 0;
+			this.play();
+		}, false);
+		audio.play();
+	}
+</script>
 
 </html>
