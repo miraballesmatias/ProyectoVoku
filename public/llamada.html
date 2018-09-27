@@ -45,20 +45,22 @@
 </head>
 
 <body>
-	<div class="w3-container w3-center w3-purple w3-animate-bottom w3-display-bottomleft disclaimer anim-0 until-1">
-		<p>¡Bienvenido! Recuerda que necesitas subir el volumen de tu dispositivo antes de seguir.</p>
-		<button class="w3-button w3-round w3-large" onclick="init()">¡ENTENDIDO!</button>
+	<div class="w3-modal-content w3-animate-zoom w3-container w3-purple w3-center disclaimer anim-0 until-1">
+		<div class="w3-section">
+			<p>¡Bienvenido! Recuerda que necesitas subir el volumen de tu dispositivo antes de seguir.</p>
+			<button class="w3-button w3-round w3-large w3-green" onclick="init()">¡ENTENDIDO!</button>
+		</div>
 	</div>
 
 	<div class="gradient w3-animate-opacity anim-0 until-0">
 		<div class="w3-center image-container">
-			<img class="w3-circle w3-image imagen-de-llamada w3-animate-zoom anim-1" src="asset/img/frederic.jpeg" alt="Imagen de llamada entrante">
+			<img id="avatar-src" class="w3-circle w3-image imagen-de-llamada w3-animate-zoom anim-1" alt="Imagen de llamada entrante">
 			<p class="w3-animate-fading w3-text-white w3-large texto-llamada anim-1 until-1">Frédéric Chopin está llamando...</p>
 			<div class="w3-panel w3-gray w3-opacity w3-padding-large w3-xxxlarge anim-1 until-1" id="counter">00:00</div>
 		</div>
 
 		<div class="w3-animate-opacity">
-			<button class="w3-display-bottomleft w3-button w3-circle w3-green botonLlamada" onclick="contestar()"><i class="fas fa-phone fa-3x"></i></button>
+			<button class="w3-display-bottomleft w3-button w3-circle w3-green botonLlamada" onclick="contestar(); this.disabled = true"><i class="fas fa-phone fa-3x"></i></button>
 			<button class="w3-display-bottomright w3-button w3-circle w3-red botonLlamada" onclick="location.href = 'detalle.html'""><i class="
 			 fas fa-phone fa-3x" style="transform: rotate(225deg)"></i></button>
 		</div>
@@ -70,13 +72,19 @@
 			<source src="asset/audio/phone-ring.mp3" type="audio/mpeg">
 		</audio>
 		<audio id="feature-audio">
-			<source src="asset/audio/feature-audio.mp3" type="audio/mpeg">
+			<source id="feature-audio-src" type="audio/mpeg">
 		</audio>
 		<i class="fas fa-phone fa-3x"></i>
 	</div>
 </body>
 
 <script>
+	//Ejecuta al ingresar al sitio
+	let callId = window.location.href.toLowerCase().split("callid=")
+	if (!callId[1]) { window.location.href = "/" }
+	document.getElementById("avatar-src").setAttribute("src", "asset/img/" + callId[1] + "/feature-img.jpeg");
+	document.getElementById("feature-audio-src").setAttribute("src", "asset/audio/" + callId[1] + "/feature-audio.mp3");
+
 	function init() {
 		let audio = document.getElementById("phone-ring");
 		audio.addEventListener('ended', function () {

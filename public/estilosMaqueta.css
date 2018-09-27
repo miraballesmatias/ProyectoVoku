@@ -1,10 +1,12 @@
 #counter {
 	margin: 0;
 	opacity: 0;
+	height: 0;
 	transition: opacity 0.6s;
 }
 
 #counter.anim-fin {
+	height: auto;
 	opacity: 0.6;
 }
 
@@ -14,6 +16,7 @@
 }
 
 .disclaimer {
+	margin-top:30vh;
 	position: absolute;
 	transition: opacity 0.6s;
 }
@@ -31,7 +34,8 @@ body {
 }
 
 .gradient {
-	height: 85vh;
+	height: 80vh;
+	overflow: visible;
 	background-image: linear-gradient(to bottom, black, #212121);
 	display:none;
 }
