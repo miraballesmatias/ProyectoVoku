@@ -56,12 +56,12 @@
 		<div class="w3-center image-container">
 			<img id="avatar-src" class="w3-circle w3-image imagen-de-llamada w3-animate-zoom anim-1" alt="Imagen de llamada entrante">
 			<p class="w3-animate-fading w3-text-white w3-large texto-llamada anim-1 until-1">Frédéric Chopin está llamando...</p>
-			<div class="w3-panel w3-gray w3-opacity w3-padding-large w3-xxxlarge anim-1 until-1" id="counter">00:00</div>
+			<div class="w3-panel w3-gray w3-opacity w3-padding-large w3-xxxlarge anim-1 until-1" id="counter">Conectando...</div>
 		</div>
 
 		<div class="w3-animate-opacity">
 			<button class="w3-display-bottomleft w3-button w3-circle w3-green botonLlamada" onclick="contestar(); this.disabled = true"><i class="fas fa-phone fa-3x"></i></button>
-			<button class="w3-display-bottomright w3-button w3-circle w3-red botonLlamada" onclick="location.href = 'detalle.html'""><i class="
+			<button class="w3-display-bottomright w3-button w3-circle w3-red botonLlamada" onclick="cortar()"><i class="
 			 fas fa-phone fa-3x" style="transform: rotate(225deg)"></i></button>
 		</div>
 	</div>
@@ -71,7 +71,7 @@
 		<audio id="phone-ring">
 			<source src="asset/audio/phone-ring.mp3" type="audio/mpeg">
 		</audio>
-		<audio id="feature-audio">
+		<audio id="feature-audio" ontimeupdate="timeupdate(this.currentTime)" onended="cortar()">
 			<source id="feature-audio-src" type="audio/mpeg">
 		</audio>
 		<i class="fas fa-phone fa-3x"></i>
@@ -100,10 +100,15 @@
 		document.getElementById('phone-ring').pause()
 		document.getElementById('feature-audio').play()
 		avanzarAnimacion(1);
+	}
 
-		let tiempo = 0;
+	function cortar(){
+		location.href = 'detalle.html'
+	}
+
+	function timeupdate(tiempo){
 		let contador = document.getElementById("counter");
-		setInterval(() => { contador.innerHTML = obtenerString(tiempo); tiempo++ }, 1000)
+		contador.innerHTML = obtenerString(tiempo);
 	}
 
 	// Utilities
@@ -118,6 +123,7 @@
 	}
 
 	function obtenerString(number) {
+		number = Math.floor(number);
 		let minutos = Math.floor(number / 60);
 		let segundos = number - (minutos * 60);
 		return minutos.toString().padStart(2, "0") + ":" + segundos.toString().padStart(2, "0")
