@@ -66,9 +66,8 @@
 		<div class="w3-animate-opacity">
 			<button class="w3-display-bottomleft w3-button w3-circle w3-green botonLlamada" onclick="contestar(); this.disabled = true"><i
 				 class="fas fa-phone fa-3x"></i></button>
-			<button class="w3-display-bottomright w3-button w3-circle w3-red botonLlamada" onclick="cortar();"><i class="
-			 fas fa-phone fa-3x"
-				 style="transform: rotate(225deg)"></i></button>
+			<button class="w3-display-bottomright w3-button w3-circle w3-red botonLlamada" onclick="cortar(); this.disabled = true"><i
+				 class="fas fa-phone fa-3x" style="transform: rotate(225deg)"></i></button>
 		</div>
 	</div>
 
@@ -98,7 +97,7 @@
 
 	function triggerLlamada() {
 		document.getElementById("phone-ring").play();
-		document.querySelector('meta[name="theme-color"]').setAttribute('content',  '#000000');
+		document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000000');
 		avanzarAnimacion(0);
 	}
 
@@ -108,17 +107,20 @@
 		avanzarAnimacion(1);
 	}
 
-	function cortar() {
-		location.href = 'detalle.html'
-	}
-
 	function timeupdate(tiempo) {
 		let contador = document.getElementById("counter");
 		contador.innerHTML = obtenerString(tiempo);
 	}
 
 	function cortar() {
-		window.location.href = 'detalle.html'
+		grabarVisita().then(_ => { window.location.href = 'detalle.html' })
+	}
+
+	function grabarVisita() {
+		if (!currentUserData.visitados) { currentUserData.visitados = [] }
+		if (!currentUserData.visitados.includes(callId[1])) {
+			return db.collection("users").doc(vokuId).update({ visitados: currentUserData.visitados.concat(callId[1]) })
+		} else { window.location.href = 'detalle.html' }
 	}
 
 	// Utilities
