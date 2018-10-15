@@ -43,7 +43,7 @@
 	<script src="/__/firebase/5.4.2/firebase-app.js"></script>
 	<script src="/__/firebase/5.4.2/firebase-firestore.js"></script>
 	<script src="/__/firebase/init.js"></script>
-	<script>var db = firebase.firestore();</script>
+	<script>var db = firebase.firestore(); db.settings({timestampsInSnapshots: true});</script>
 </head>
 
 <body>
@@ -51,7 +51,7 @@
 		<div class="w3-section">
 			<p>¡Bienvenido! Recuerda que necesitas subir el volumen de tu dispositivo antes de seguir. También se necesita
 				conexión a internet.</p>
-			<button class="w3-button w3-round w3-large w3-green" onclick="triggerLlamada()">¡ENTENDIDO!</button>
+			<button id="entendido-button" class="w3-button w3-round w3-large w3-green" onclick="triggerLlamada()" disabled>Cargando...</button>
 		</div>
 	</div>
 
@@ -88,11 +88,13 @@
 	//Ejecuta al ingresar al sitio
 	let callId = window.location.href.toLowerCase().split("callid=")
 	if (!callId[1]) { window.location.href = "/" }
-	document.getElementById("avatar-src").setAttribute("src", "asset/img/" + callId[1] + "/feature-img.jpeg");
-	document.getElementById("feature-audio-src").setAttribute("src", "asset/audio/" + callId[1] + "/feature-audio.mp3");
-	// db.collection("exhibiciones").doc(callId[1]).get().then(doc => {
-	// 	document.getElementById("avatar-text").innerHTML = doc.data().nombre + ' está llamando...'
-	// }).catch(error => { console.log(error) });
+	document.getElementById("avatar-src").setAttribute("src", "asset/feat/" + callId[1] + "/feature-img.jpeg");
+	document.getElementById("feature-audio-src").setAttribute("src", "asset/feat/" + callId[1] + "/feature-audio.mp3");
+	db.collection("exhibiciones").doc(callId[1]).get().then(doc => {
+		document.getElementById("avatar-text").innerHTML = doc.data().nombre + ' está llamando...'
+		document.getElementById("entendido-button").disabled = false;
+		document.getElementById("entendido-button").innerHTML = "¡ENTENDIDO!";
+	}).catch(error => window.location.href = "/");
 
 	function triggerLlamada() {
 		document.getElementById("phone-ring").play();;
