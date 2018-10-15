@@ -19,7 +19,8 @@ function tryGetFromStorage() {
 }
 
 function updateUserInfo(docRef) {
-    vokuId = docRef.id; currentUserData = docRef.data();
+    if (!docRef) { return; }
+    vokuId = docRef.id; currentUserData = docRef.data ? docRef.data() : emptyUser();
     localStorage.setItem("voku_id", vokuId);
     document.cookie = `voku_id=${vokuId}; expires=Tue, 19 Jan 2038 03:14:07 UTC`
 }

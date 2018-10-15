@@ -120,7 +120,7 @@
 		if (!currentUserData.visitados) { currentUserData.visitados = [] }
 		if (!currentUserData.visitados.includes(callId[1])) {
 			return db.collection("users").doc(vokuId).update({ visitados: currentUserData.visitados.concat(callId[1]) })
-		} else { window.location.href = 'detalle.html' }
+		} else { return { then: (f) => f() } }
 	}
 
 	// Utilities
