@@ -17,7 +17,7 @@
 	<link rel="apple-touch-icon" sizes="152x152" href="touch-icon-ipad-retina.png"> -->
 
 	<!-- Browser color -->
-	<meta name="theme-color" content="#000000">
+	<meta name="theme-color" content="#212121">
 
 	<!-- Iphone startup image -->
 	<!-- <link href="https://placehold.it/1242x2148" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
@@ -88,7 +88,7 @@
 	//Ejecuta al ingresar al sitio
 	let callId = window.location.href.toLowerCase().split("callid=")
 	if (!callId[1]) { window.location.href = "/" }
-	document.getElementById("avatar-src").setAttribute("src", "asset/feat/" + callId[1] + "/feature-img.jpeg");
+	document.getElementById("avatar-src").setAttribute("src", "asset/feat/" + callId[1] + "/feature-img-sm.jpeg");
 	document.getElementById("feature-audio-src").setAttribute("src", "asset/feat/" + callId[1] + "/feature-audio.mp3");
 	db.collection("exhibiciones").doc(callId[1]).get().then(doc => {
 		document.getElementById("avatar-text").innerHTML = doc.data().nombre + ' está llamando...'
@@ -97,8 +97,8 @@
 	}).catch(error => window.location.href = "/");
 
 	function triggerLlamada() {
-		document.getElementById("phone-ring").play();;
-
+		document.getElementById("phone-ring").play();
+		document.querySelector('meta[name="theme-color"]').setAttribute('content',  '#000000');
 		avanzarAnimacion(0);
 	}
 
