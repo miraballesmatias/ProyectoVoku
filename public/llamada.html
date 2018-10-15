@@ -40,38 +40,44 @@
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<link rel="stylesheet" type="text/css" href="estilosMaqueta.css">
 
-	<script src="/__/firebase/5.0.4/firebase-app.js"></script>
+	<script src="/__/firebase/5.4.2/firebase-app.js"></script>
+	<script src="/__/firebase/5.4.2/firebase-firestore.js"></script>
 	<script src="/__/firebase/init.js"></script>
+	<script>var db = firebase.firestore();</script>
 </head>
 
 <body>
 	<div class="w3-modal-content w3-animate-zoom w3-container w3-purple w3-center disclaimer anim-0 until-1">
 		<div class="w3-section">
-			<p>¡Bienvenido! Recuerda que necesitas subir el volumen de tu dispositivo antes de seguir.</p>
-			<button class="w3-button w3-round w3-large w3-green" onclick="init()">¡ENTENDIDO!</button>
+			<p>¡Bienvenido! Recuerda que necesitas subir el volumen de tu dispositivo antes de seguir. También se necesita
+				conexión a internet.</p>
+			<button class="w3-button w3-round w3-large w3-green" onclick="triggerLlamada()">¡ENTENDIDO!</button>
 		</div>
 	</div>
 
 	<div class="gradient w3-animate-opacity anim-0 until-0">
 		<div class="w3-center image-container">
 			<img id="avatar-src" class="w3-circle w3-image imagen-de-llamada w3-animate-zoom anim-1" alt="Imagen de llamada entrante">
-			<p class="w3-animate-fading w3-text-white w3-large texto-llamada anim-1 until-1">Frédéric Chopin está llamando...</p>
+			<p id="avatar-text" class="w3-animate-fading w3-text-white w3-large texto-llamada anim-1 until-1">Frédéric Chopin
+				está llamando...</p>
 			<div class="w3-panel w3-gray w3-opacity w3-padding-large w3-xxxlarge anim-1 until-1" id="counter">00:00</div>
 		</div>
 
 		<div class="w3-animate-opacity">
-			<button class="w3-display-bottomleft w3-button w3-circle w3-green botonLlamada" onclick="contestar(); this.disabled = true"><i class="fas fa-phone fa-3x"></i></button>
-			<button class="w3-display-bottomright w3-button w3-circle w3-red botonLlamada" onclick="location.href = 'detalle.html'""><i class="
-			 fas fa-phone fa-3x" style="transform: rotate(225deg)"></i></button>
+			<button class="w3-display-bottomleft w3-button w3-circle w3-green botonLlamada" onclick="contestar(); this.disabled = true"><i
+				 class="fas fa-phone fa-3x"></i></button>
+			<button class="w3-display-bottomright w3-button w3-circle w3-red botonLlamada" onclick="cortar();"><i class="
+			 fas fa-phone fa-3x"
+				 style="transform: rotate(225deg)"></i></button>
 		</div>
 	</div>
 
 	<!-- Oculto -->
 	<div style="visibility: hidden; position: absolute;">
-		<audio id="phone-ring">
+		<audio id="phone-ring" onended="this.currentTime = 0;this.play();">
 			<source src="asset/audio/phone-ring.mp3" type="audio/mpeg">
 		</audio>
-		<audio id="feature-audio">
+		<audio id="feature-audio" onended="cortar()">
 			<source id="feature-audio-src" type="audio/mpeg">
 		</audio>
 		<i class="fas fa-phone fa-3x"></i>
@@ -84,14 +90,12 @@
 	if (!callId[1]) { window.location.href = "/" }
 	document.getElementById("avatar-src").setAttribute("src", "asset/img/" + callId[1] + "/feature-img.jpeg");
 	document.getElementById("feature-audio-src").setAttribute("src", "asset/audio/" + callId[1] + "/feature-audio.mp3");
+	db.collection("exhibiciones").doc(callId[1]).get().then(doc => {
+		document.getElementById("avatar-text").innerHTML = doc.data().nombre + ' está llamando...'
+	}).catch(error => {console.log(error)});
 
-	function init() {
-		let audio = document.getElementById("phone-ring");
-		audio.addEventListener('ended', function () {
-			this.currentTime = 0;
-			this.play();
-		}, false);
-		audio.play();
+	function triggerLlamada() {
+		document.getElementById("phone-ring").play();;
 
 		avanzarAnimacion(0);
 	}
@@ -104,6 +108,10 @@
 		let tiempo = 0;
 		let contador = document.getElementById("counter");
 		setInterval(() => { contador.innerHTML = obtenerString(tiempo); tiempo++ }, 1000)
+	}
+
+	function cortar() {
+		window.location.href = 'detalle.html'
 	}
 
 	// Utilities
