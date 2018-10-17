@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Voku</title>
+
+	<meta name="robots" content="noindex" />
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+	<!-- Browser icons -->
+	<link rel="icon" sizes="192x192" href="favicon.png">
+	<!-- <link rel="apple-touch-icon" href="ios-icon.png">
+	<link rel="apple-touch-icon" href="touch-icon-iphone.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="touch-icon-ipad.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="touch-icon-iphone-retina.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="touch-icon-ipad-retina.png"> -->
+
+	<!-- Browser color -->
+	<meta name="theme-color" content="#9c27b0">
+
+	<!-- Iphone startup image -->
+	<!-- <link href="https://placehold.it/1242x2148" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+	 rel="apple-touch-startup-image">
+	<link href="https://placehold.it/1182x2208" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)"
+	 rel="apple-touch-startup-image">
+	<link href="https://placehold.it/750x1294" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)"
+	 rel="apple-touch-startup-image">
+	<link href="https://placehold.it/640x1096" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)"
+	 rel="apple-touch-startup-image">
+	<link href="https://placehold.it/640x920" media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 2)"
+	 rel="apple-touch-startup-image">
+	<link href="https://placehold.it/320x460" media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 1)"
+	 rel="apple-touch-startup-image"> -->
+
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/solid.css" integrity="sha384-VGP9aw4WtGH/uPAOseYxZ+Vz/vaTb1ehm1bwx92Fm8dTrE+3boLfF1SpAtB1z7HW"
+	 crossorigin="anonymous">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/fontawesome.css" integrity="sha384-1rquJLNOM3ijoueaaeS5m+McXPJCGdr5HcA03/VHXxcp2kX2sUrQDmFc3jR5i/C7"
+	 crossorigin="anonymous">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+	<script src="/__/firebase/5.4.2/firebase-app.js"></script>
+	<script src="/__/firebase/5.4.2/firebase-firestore.js"></script>
+	<script src="/__/firebase/init.js"></script>
+	<script src="/firestore-init.js"></script>
+</head>
+
+<body>
+	<header class="w3-bar w3-purple w3-card-2">
+		<img src="asset/img/logo-voku.png" class="w3-bar-item">
+		<a href="about.html" class="w3-bar-item w3-button w3-right"><i class="fas fa-question-circle fa-2x"></i></a>
+	</header>
+
+	<!-- style="position: relative; z-index: -1;" -->
+	<div class="w3-container w3-light-grey">
+		<div class="w3-panel w3-leftbar w3-border-amber w3-card-4 w3-sand">
+			<p class=" w3-large w3-serif">
+				<i class="fas fa-quote-right w3-xxlarge w3-text-black"></i><br>
+                Nunca podré volver a Suecia sin saber dentro de mí que había hecho todo lo que un hombre podía 
+                hacer para salvar a la mayor cantidad posible de judíos.</p>
+			<p class="w3-right-align">Raoul Wallenberg</p>
+		</div>
+		<div class="w3-panel w3-leftbar w3-border-amber w3-card-4 w3-sand">
+			<p class=" w3-large w3-serif">
+				<i class="fas fa-quote-right w3-xxlarge w3-text-black"></i><br>
+				Nunca pospongas hasta mañana lo que puedes posponer hasta el día siguiente.</p>
+			<p class="w3-right-align">Raoul Wallenberg, Carta 1924-1944</p>
+		</div>
+
+		<p class="w3-section">
+			Este año, 2012, se celebra en todo el mundo el centenario del nacimiento de Raoul Wallenberg, el joven diplomático sueco que salvó a decenas de miles de judíos en Budapest del Holocausto en la etapa final de la Segunda Guerra Mundial. 
+            ​Wallenberg, como su colega el diplomático español Ángel Sanz Briz que salvó la vida de muchísimos judíos en Budapest, fue reconocido como un Justo entre las Naciones por el Museo del Holocausto de Jerusalén.
+             </p>
+		<p>Fue capturado en Budapest por el ejército soviético y llevado a la tristemente célebre cárcel de Ljubljanka 
+            en Moscú y se convirtió en una víctima de la dictadura de Stalin.
+            Después, nunca más se supo de él. Raoul Wallenberg luchó contra una dictadura de terror y fue asesinado
+            por otra. Su actuación es un modelo para todos nosotros, sobre todo en unos momentos cuando es necesario 
+            que más gente se levante contra la persecución, la xenofobia y el antisemitismo.
+            Por todo ello, el Gobierno sueco ha decidio organizar, tanto en Suecia como en el extranjero , 
+            una serie de actividades durante el año 2012 en su homenaje.
+            En España , La Embajada de Suecia en Madrid, junto a las Embajadas de Israel y Hungría, organizarón 
+            una serie de actos y seminarios que empezarón el 20 de septiembre 2012. </p>
+
+		<div class="w3-card-4  w3-sand">
+			<img src="https://upload.wikimedia.org/wikipedia/commons/0/0d/Raoul_Wallenberg.jpg" style="width:100%">
+
+			<div class="w3-container">
+				<h4><b>Un título</b></h4>
+				<p>Una descripción.</p>
+			</div>
+		</div>
+
+		<p class="w3-section">
+                En 1931, Wallenberg viajó a los Estados Unidos para estudiar Arquitectura en la Universidad de Míchigan, 
+                donde también aprendió ruso, graduándose en 1935. Al regresar a Suecia, su abuelo le consiguió un trabajo 
+                en Ciudad del Cabo (Sudáfrica), donde trabajó para una compañía sueca dedicada a la venta de materiales de 
+                construcción. Ese mismo año fue a trabajar a una filial del Banco Holandés en Haifa, entonces bajo el Mandato 
+                Británico de Palestina, donde hizo amistad con judíos húngaros. Regresó a Suecia nuevamente en 1936 y aceptó 
+                trabajar en The Central European Trading Center. La firma pertenecía al judío Koloman Lauer, a quien le estaba
+                prohibido el ingreso a ciertas partes de Europa, por lo que en esos casos Wallenberg tomaba su lugar. 
+                Fue entonces cuando Wallenberg aprende a conversar con los nazis y a entender su forma de pensar.</p>
+
+	</div>
+
+	<footer class="w3-purple w3-center w3-padding">
+		<small class="w3-opacity w3-left" style="margin-bottom:16px">Este proyecto es posible gracias a:</small>
+		<div class="w3-row">
+			<div class="w3-col m6">
+				<div class="w3-row-padding">
+					<div class="w3-col s6"><img class="w3-image" style="height: 31px" src="asset/img/logo-corazon-blanco.png"></div>
+					<div class="w3-col s6"><img class="w3-image" style="height: 31px" src="asset/img/logo-voku.png"></div>
+				</div>
+			</div>
+			<div class="w3-hide-medium w3-hide-large">-</div>
+			<div class="w3-col m6">
+				<div class="w3-row-padding">
+					<div class="w3-col s6"><img class="w3-image" style="height: 31px" src="asset/img/logo-secretaria.gif"></div>
+					<div class="w3-col s6"><img class="w3-image" style="height: 31px; filter:invert(100%)" src="asset/img/logo-frlp.png"></div>
+				</div>
+			</div>
+	</footer>
+</body>
+
+</html>
