@@ -114,7 +114,7 @@
 	}
 
 	function cortar() {
-		grabarVisita().then(_ => { window.location.href = 'detalle.html' })
+		grabarVisita().then(_ => { window.location.href = '/detalle.html?callId='+callId[1] })
 	}
 
 	function grabarVisita() {
