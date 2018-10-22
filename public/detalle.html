@@ -55,10 +55,10 @@
 		<div id="contenido" class="dynamic-src" dynamic-src=""></div>
 
 		<div class="w3-container">
-			<h3>Existen mas exhibiciones para visitar !!</h3>
+			<h2>Otras estatuas</h2>
 			<img src="https://k45.kn3.net/taringa/1/5/2/6/6/1/36/rodrigoo99/0AB.jpg?8839" style="width:100%">
-			<p><small class="w3-opacity">Nota: la imagen ariva precentada cumpoe una funcion meramente ilustrativa y no estar
-					precente en la vercion final </small></p>
+			<p><small class="w3-opacity">Nota: la imagen arriba presentada cumple una función meramente ilustrativa y no estará
+					presente en la versión final </small></p>
 		</div>
 		<ul id="list-exhibiciones" class="w3-ul"></ul>
 	</main>
@@ -92,11 +92,14 @@
 		snapshot.docs.forEach(exhibición => {
 			let fueVisitado = visitado(exhibición.id);
 			let template = `
-			<li class="w3-bar ${fueVisitado ? 'w3-green' : ''}">
+			<li class="w3-bar">
 				<img src="asset/feat/${exhibición.id}/feature-img-xsm.jpeg" class="w3-bar-item w3-circle" style="width:85px">
-				<div class="w3-bar-item">
-					<span class="w3-large">${exhibición.data().nombre}</span><br>
-					<span>${fueVisitado ? 'Visitado' : ''}</span>
+				<div class="w3-bar-item">					
+					${fueVisitado ?
+					`<span class="w3-large">${exhibición.data().nombre}</span><br>
+					 <span class="w3-tag w3-small w3-green">Visitado</span>` :
+					`<span class="w3-large w3-text-grey">-----------------</span><br>
+					 <span class="w3-tag w3-small w3-dark-gray w3-opacity">Sin visitar</span>`}
 				</div>
 			</li>`
 
