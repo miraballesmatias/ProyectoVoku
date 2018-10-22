@@ -43,38 +43,6 @@
 	<script src="/__/firebase/5.4.2/firebase-firestore.js"></script>
 	<script src="/__/firebase/init.js"></script>
 	<script src="/firestore-init.js"></script>
-	<script>
-		let callId = window.location.href.toLowerCase().split("callid=")
-		if (!callId[1]) { window.location.href = "/" }
-
-		function includeHTML() {
-			var z, i, elmnt, file, xhttp;
-			/*loop through a collection of all HTML elements:*/
-			z = document.getElementsByTagName("*");
-			for (i = 0; i < z.length; i++) {
-				elmnt = z[i];
-				/*search for elements with a certain atrribute:*/
-				file = elmnt.getAttribute("w3-include-html");
-				if (file) {
-					/*make an HTTP request using the attribute value as the file name:*/
-					xhttp = new XMLHttpRequest();
-					xhttp.onreadystatechange = function () {
-						if (this.readyState == 4) {
-							if (this.status == 200) { elmnt.innerHTML = this.responseText; }
-							if (this.status == 404) { window.location.href = "/" }
-							/*remove the attribute, and call this function once more:*/
-							elmnt.removeAttribute("w3-include-html");
-							includeHTML();
-						}
-					}
-					xhttp.open("GET", file, true);
-					xhttp.send();
-					/*exit the function:*/
-					return;
-				}
-			}
-		};
-	</script>
 </head>
 
 <body class="w3-light-grey">
@@ -85,61 +53,15 @@
 
 	<main>
 		<div id="contenido"></div>
-		<script>
-			document.getElementById("contenido").setAttribute('w3-include-html', 'asset/feat/'+callId[1]+'/contenido.html');
-			includeHTML();
-		</script>
+
 		<div class="w3-container">
 			<h3>Existen mas exhibiciones para visitar !!</h3>
 			<img src="https://k45.kn3.net/taringa/1/5/2/6/6/1/36/rodrigoo99/0AB.jpg?8839" style="width:100%">
-			<p><small class="w3-opacity">Nota: la imagen ariva precentada cumpoe una funcion meramente ilustrativa y no estar precente en la vercion final </small></p>
+			<p><small class="w3-opacity">Nota: la imagen ariva precentada cumpoe una funcion meramente ilustrativa y no estar
+					precente en la vercion final </small></p>
 			<ul id="list-exhibiciones" class="w3-ul"></ul>
 		</div>
 	</main>
-
-	<script>
-		console.log(vokuId);
-		function visitado(id){
-			/*db.collection("users").doc(vokuId).get().then((doc)=>{
-				console.log(doc.data().visitados);
-				return false;
-			});*/
-			console.log(currentUserData.visitados);
-			if (!currentUserData.visitados) { return false }
-			if (!currentUserData.visitados.includes(id)) {
-				return false;
-			} else { return true; }
-		}
-
-		db.collection("exhibiciones").get().then((snapshot)=>{
-				snapshot.docs.forEach(exibicion => {
-					let li = document.createElement('li');
-					let name = document.createElement('span');
-					let img = document.createElement('img');
-					let div = document.createElement('div');
-					name.className ="w3-large";
-					li.className = "w3-bar";
-					img.className = "w3-bar-item w3-circle";
-					img.style.width = "85px";
-					img.src ="asset/feat/" + exibicion.id + "/feature-img-xsm.jpeg";
-					div.className = "w3-bar-item";
-					name.textContent = exibicion.data().nombre;
-
-					div.appendChild(name);
-					li.appendChild(img);
-					if (visitado(exibicion.id)){
-						li.style.backgroundColor = "#7bbb7bb3";
-						let visitado = document.createElement('small');
-						visitado.className ="w3-opacity";
-						visitado.textContent = "Visitado";
-						div.appendChild(document.createElement('br'));
-						div.appendChild(visitado);
-					}
-					li.appendChild(div);
-					document.getElementById("list-exhibiciones").appendChild(li);
-				});
-			})
-	</script>
 
 	<footer class="w3-purple w3-center w3-padding">
 		<small class="w3-opacity w3-left" style="margin-bottom:16px">Este proyecto es posible gracias a:</small>
@@ -159,5 +81,76 @@
 			</div>
 	</footer>
 </body>
+
+<script>
+	let callId = window.location.href.toLowerCase().split("callid=")
+	if (!callId[1]) { window.location.href = "/" }
+	document.getElementById("contenido").setAttribute('w3-include-html', 'asset/feat/' + callId[1] + '/contenido.html');
+	includeHTML();
+
+	db.collection("exhibiciones").get().then((snapshot) => {
+		snapshot.docs.forEach(exibicion => {
+			let li = document.createElement('li');
+			let name = document.createElement('span');
+			let img = document.createElement('img');
+			let div = document.createElement('div');
+			name.className = "w3-large";
+			li.className = "w3-bar";
+			img.className = "w3-bar-item w3-circle";
+			img.style.width = "85px";
+			img.src = "asset/feat/" + exibicion.id + "/feature-img-xsm.jpeg";
+			div.className = "w3-bar-item";
+			name.textContent = exibicion.data().nombre;
+
+			div.appendChild(name);
+			li.appendChild(img);
+			if (visitado(exibicion.id)) {
+				li.style.backgroundColor = "#7bbb7bb3";
+				let visitado = document.createElement('small');
+				visitado.className = "w3-opacity";
+				visitado.textContent = "Visitado";
+				div.appendChild(document.createElement('br'));
+				div.appendChild(visitado);
+			}
+			li.appendChild(div);
+			document.getElementById("list-exhibiciones").appendChild(li);
+		});
+	})
+
+	function includeHTML() {
+		var z, i, elmnt, file, xhttp;
+		/*loop through a collection of all HTML elements:*/
+		z = document.getElementsByTagName("*");
+		for (i = 0; i < z.length; i++) {
+			elmnt = z[i];
+			/*search for elements with a certain atrribute:*/
+			file = elmnt.getAttribute("w3-include-html");
+			if (file) {
+				/*make an HTTP request using the attribute value as the file name:*/
+				xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function () {
+					if (this.readyState == 4) {
+						if (this.status == 200) { elmnt.innerHTML = this.responseText; }
+						if (this.status == 404) { window.location.href = "/" }
+						/*remove the attribute, and call this function once more:*/
+						elmnt.removeAttribute("w3-include-html");
+						includeHTML();
+					}
+				}
+				xhttp.open("GET", file, true);
+				xhttp.send();
+				/*exit the function:*/
+				return;
+			}
+		}
+	}
+
+	function visitado(id) {
+		if (!currentUserData.visitados) { return false }
+		if (!currentUserData.visitados.includes(id)) {
+			return false;
+		} else { return true; }
+	}
+</script>
 
 </html>
