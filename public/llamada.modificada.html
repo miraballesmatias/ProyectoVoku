@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Voku</title>
+
+	<meta name="robots" content="noindex" />
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+	<!-- Browser icons -->
+	<link rel="icon" sizes="192x192" href="favicon.png">
+	<!-- <link rel="apple-touch-icon" href="ios-icon.png">
+	<link rel="apple-touch-icon" href="touch-icon-iphone.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="touch-icon-ipad.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="touch-icon-iphone-retina.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="touch-icon-ipad-retina.png"> -->
+
+	<!-- Browser color -->
+	<meta name="theme-color" content="#212121">
+
+	<!-- Iphone startup image -->
+	<!-- <link href="https://placehold.it/1242x2148" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+	 rel="apple-touch-startup-image">
+	<link href="https://placehold.it/1182x2208" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)"
+	 rel="apple-touch-startup-image">
+	<link href="https://placehold.it/750x1294" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)"
+	 rel="apple-touch-startup-image">
+	<link href="https://placehold.it/640x1096" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)"
+	 rel="apple-touch-startup-image">
+	<link href="https://placehold.it/640x920" media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 2)"
+	 rel="apple-touch-startup-image">
+	<link href="https://placehold.it/320x460" media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 1)"
+	 rel="apple-touch-startup-image"> -->
+
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/solid.css" integrity="sha384-VGP9aw4WtGH/uPAOseYxZ+Vz/vaTb1ehm1bwx92Fm8dTrE+3boLfF1SpAtB1z7HW"
+	 crossorigin="anonymous">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/fontawesome.css" integrity="sha384-1rquJLNOM3ijoueaaeS5m+McXPJCGdr5HcA03/VHXxcp2kX2sUrQDmFc3jR5i/C7"
+	 crossorigin="anonymous">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<link rel="stylesheet" type="text/css" href="estilos.css">
+
+	<script src="/__/firebase/5.4.2/firebase-app.js"></script>
+	<script src="/__/firebase/5.4.2/firebase-firestore.js"></script>
+	<script src="/__/firebase/init.js"></script>
+	<script src="/firestore-init.js"></script>
+</head>
+
+<body>
+	<div class="w3-modal-content w3-animate-zoom w3-container w3-purple w3-center disclaimer anim-0 until-1">
+		<div class="w3-section">
+			<p>¡Bienvenido! Recuerda que necesitas subir el volumen de tu dispositivo antes de seguir. También se necesita
+				conexión a internet.</p>
+			<button id="entendido-button" class="w3-button w3-round w3-large w3-green" onclick="triggerLlamada()" disabled>Cargando...</button>
+		</div>
+	</div>
+
+	<div class="gradient w3-animate-opacity anim-0 until-0">
+		<div class="w3-center image-container">
+			<img id="avatar-src" class="w3-circle w3-image imagen-de-llamada w3-animate-zoom anim-1" alt="Imagen de llamada entrante">
+			<p id="avatar-text" class="w3-animate-fading w3-text-white w3-large texto-llamada anim-1 until-1">Alguien está
+				llamando...</p>
+			<div class="w3-panel w3-gray w3-opacity w3-padding-large w3-xxxlarge anim-1 until-1" id="counter">Conectando...</div>
+		</div>
+
+		<div class="w3-animate-opacity">
+			<button id="btnContestar" class="w3-btn w3-display-bottomleft w3-button w3-circle w3-green botonLlamada"
+			 ontouchstart="registerCurrentCoordenates(event);" ontouchmove="touchHandler(event);" ontouchend="touchRelease(this);"><i
+				 class="fas fa-phone fa-3x"></i></button>
+			<button class="w3-display-bottomright w3-button w3-circle w3-red botonLlamada" onclick="cortar(); this.disabled = true"><i
+				 class="fas fa-phone fa-3x" style="transform: rotate(225deg)"></i></button>
+		</div>
+	</div>
+
+	<!-- Oculto -->
+	<div style="visibility: hidden; position: absolute;">
+		<audio id="phone-ring" onended="this.currentTime = 0;this.play();">
+			<source src="asset/audio/phone-ring.mp3" type="audio/mpeg">
+		</audio>
+		<audio id="feature-audio" ontimeupdate="timeupdate(this.currentTime)" onended="cortar();">
+			<source id="feature-audio-src" type="audio/mpeg">
+		</audio>
+		<i class="fas fa-phone fa-3x"></i>
+	</div>
+</body>
+
+<script>
+	var Xo, Yo;
+	var flagAnswering = false;
+
+	function registerCurrentCoordenates(event) {	//guarda las coordenadas al momento de hacer click
+		//console.log("click");
+		Xo = event.touches[0].clientX;
+		Yo = event.touches[0].clientY;
+		//console.log("starting Xo: " + Xo + " Yo: " + Yo);
+	}
+
+	function touchRelease(buton) {
+		if (!flagAnswering) {
+			flagAnswering=true;
+			butn.disabled =true;
+			contestar();
+		}
+	}
+
+	function touchHandler(event) {
+		if (!flagAnswering) {
+
+			if (!this.disabled) {
+				this.disabled = true;
+				//console.log("agrandando");
+				console.log("this.disabled:" + this.disabled);
+				agrandar(this);
+			}
+
+			x = event.touches[0].clientX;
+			y = event.touches[0].clientY;
+
+			if ((parseInt(x) - parseInt(Xo)) > 60) {	//Si arrastró lo suficiente, se contesta la llamada
+				flagAnswering = true;
+				contestar();
+			}
+		}
+	}
+
+	function agrandar(element) {
+
+		document.getElementById("btnContestar").style.transform = 'scale(2)';
+	}
+
+	function myFunction(event) {
+		var x = event.touches[0].clientX;
+		var y = event.touches[0].clientY;
+		document.getElementById("btnContestar").innerHTML = x + ", " + y;
+	}
+
+	//Ejecuta al ingresar al sitio
+	let callId = window.location.href.toLowerCase().split("callid=")
+	if (!callId[1]) { window.location.href = "/" }
+	document.getElementById("avatar-src").setAttribute("src", "asset/feat/" + callId[1] + "/feature-img-sm.jpeg");
+	document.getElementById("feature-audio-src").setAttribute("src", "asset/feat/" + callId[1] + "/feature-audio.mp3");
+	db.collection("exhibiciones").doc(callId[1]).get().then(doc => {
+		document.getElementById("avatar-text").innerHTML = doc.data().nombre + ' está llamando...'
+		document.getElementById("entendido-button").disabled = false;
+		document.getElementById("entendido-button").innerHTML = "¡ENTENDIDO!";
+	}).catch(error => window.location.href = "/");
+
+	function triggerLlamada() {
+		document.getElementById("phone-ring").play();
+		document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000000');
+		avanzarAnimacion(0);
+	}
+
+	function contestar() {
+		document.getElementById('phone-ring').pause()
+		document.getElementById('feature-audio').load()
+		document.getElementById('feature-audio').play()
+		avanzarAnimacion(1);
+	}
+
+	function timeupdate(tiempo) {
+		let contador = document.getElementById("counter");
+		contador.innerHTML = obtenerString(tiempo);
+	}
+
+	function cortar() {
+		grabarVisita().then(_ => { window.location.href = '/detalle.html?callId=' + callId[1] })
+	}
+
+	function grabarVisita() {
+		if (!currentUserData.visitados) { currentUserData.visitados = [] }
+		if (!currentUserData.visitados.includes(callId[1])) {
+			return db.collection("users").doc(vokuId).update({ visitados: currentUserData.visitados.concat(callId[1]) })
+		} else { return { then: (f) => f() } }
+	}
+
+	// Utilities
+	function avanzarAnimacion(keyframe) {
+		let animCol = document.getElementsByClassName("anim-" + keyframe);
+		for (let index = 0; index < animCol.length;) {
+			const element = animCol[index];
+			element.classList.remove("anim-" + keyframe);
+			if (element.classList.contains("until-" + keyframe)) { element.classList.add("anim-fin"); }
+			else { element.classList.add("anim-" + (keyframe + 1)); }
+		}
+	}
+
+	function obtenerString(number) {
+		number = Math.floor(number);
+		let minutos = Math.floor(number / 60);
+		let segundos = number - (minutos * 60);
+		return minutos.toString().padStart(2, "0") + ":" + segundos.toString().padStart(2, "0")
+	}
+</script>
+
+</html>
