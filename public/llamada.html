@@ -66,7 +66,7 @@
 		<div class="w3-animate-opacity">
 			<button class="w3-display-bottomleft w3-button w3-circle w3-green botonLlamada" onclick="contestar(); this.disabled = true"><i
 				 class="fas fa-phone fa-3x"></i></button>
-			<button class="w3-display-bottomright w3-button w3-circle w3-red botonLlamada" onclick="cortar(); this.disabled = true"><i
+			<button class="w3-display-bottomright w3-button w3-circle w3-red botonLlamada" onclick="cortar(1); this.disabled = true"><i
 				 class="fas fa-phone fa-3x" style="transform: rotate(225deg)"></i></button>
 		</div>
 	</div>
@@ -76,7 +76,7 @@
 		<audio id="phone-ring" onended="this.currentTime = 0;this.play();">
 			<source src="asset/audio/phone-ring.mp3" type="audio/mpeg">
 		</audio>
-		<audio id="feature-audio" ontimeupdate="timeupdate(this.currentTime)" onended="cortar();">
+		<audio id="feature-audio" ontimeupdate="timeupdate(this.currentTime)" onended="cortar(3);">
 			<source id="feature-audio-src" type="audio/mpeg">
 		</audio>
 		<i class="fas fa-phone fa-3x"></i>
@@ -111,17 +111,32 @@
 	function timeupdate(tiempo) {
 		let contador = document.getElementById("counter");
 		contador.innerHTML = obtenerString(tiempo);
+		tiempoEscuchado = tiempo;
 	}
 
-	function cortar() {
-		grabarVisita().then(_ => { window.location.href = '/detalle.html?callId='+callId[1] })
+	tiempoEscuchado = 0;
+																												//interaccion:
+	function cortar(interaccion) {																				// 1: cortó directamente
+		if ((interaccion == 1) && (tiempoEscuchado)) { interaccion == 2 }											// 2: escuchó parte del audio
+		grabarVisita(interaccion).then(_ => { window.location.href = '/detalle.html?callId=' + callId[1] })		// 3: escuchó el audio completo
 	}
 
-	function grabarVisita() {
+	function grabarVisita(interaccion) {
 		if (!currentUserData.visitados) { currentUserData.visitados = [] }
-		if (!currentUserData.visitados.includes(callId[1])) {
-			return db.collection("users").doc(vokuId).update({ visitados: currentUserData.visitados.concat(callId[1]) })
-		} else { return { then: (f) => f() } }
+		if (!currentUserData.accesos) { currentUserData.accesos = [] }
+
+		var acceso = {
+			fecha: firebase.firestore.FieldValue.serverTimestamp(),
+			exhibicion: callId[1],
+			interaccion: interaccion,
+			tiempo_invertido: tiempoEscuchado
+		};
+
+		return db.collection("users").doc(vokuId).collection("accesos").add(acceso).then(() => {
+			if (!currentUserData.visitados.includes(callId[1])) {
+				return db.collection("users").doc(vokuId).update({ visitados: currentUserData.visitados.concat(callId[1]) })
+			} else { return { then: (f) => f() } }
+		})
 	}
 
 	// Utilities
