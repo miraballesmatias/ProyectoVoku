@@ -27,7 +27,6 @@ function updateUserInfo(docRef) {
 function emptyUser() {
     return {
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        visitados: [],
-        visitas: []
+        visitados: []
     }
 }

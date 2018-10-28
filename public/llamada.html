@@ -85,6 +85,7 @@
 
 <script>
 	//Ejecuta al ingresar al sitio
+	let tiempoEscuchado = 0;
 	let callId = window.location.href.toLowerCase().split("callid=")
 	if (!callId[1]) { window.location.href = "/" }
 	document.getElementById("avatar-src").setAttribute("src", "asset/feat/" + callId[1] + "/feature-img-sm.jpeg");
@@ -113,12 +114,10 @@
 		contador.innerHTML = obtenerString(tiempo);
 		tiempoEscuchado = tiempo;
 	}
-
-	tiempoEscuchado = 0;
-																												//interaccion:
-	function cortar(interaccion) {																				// 1: cortó directamente
-		if ((interaccion == 1) && (tiempoEscuchado)) { interaccion == 2 }											// 2: escuchó parte del audio
-		grabarVisita(interaccion).then(_ => { window.location.href = '/detalle.html?callId=' + callId[1] })		// 3: escuchó el audio completo
+																												
+	function cortar(interaccion) {
+		if ((interaccion == 1) && (tiempoEscuchado)) { interaccion == 2 }
+		grabarVisita(interaccion).then(_ => { window.location.href = '/detalle.html?callId=' + callId[1] })	
 	}
 
 	function grabarVisita(interaccion) {
