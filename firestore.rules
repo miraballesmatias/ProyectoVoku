@@ -7,7 +7,7 @@ service cloud.firestore {
     match /users/{user} {
       allow create, update: if true;
       
-        match /visits/{visita} {
+        match /accesos/{accesos} {
           allow create: if true;
           allow read: if false;
         }
