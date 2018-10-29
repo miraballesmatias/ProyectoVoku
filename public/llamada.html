@@ -86,15 +86,16 @@
 <script>
 	//Ejecuta al ingresar al sitio
 	let tiempoEscuchado = 0;
-	let callId = window.location.href.toLowerCase().split("callid=")
-	if (!callId[1]) { window.location.href = "/" }
-	document.getElementById("avatar-src").setAttribute("src", "asset/feat/" + callId[1] + "/feature-img-sm.jpeg");
-	document.getElementById("feature-audio-src").setAttribute("src", "asset/feat/" + callId[1] + "/feature-audio.mp3");
-	db.collection("exhibiciones").doc(callId[1]).get().then(doc => {
-		document.getElementById("avatar-text").innerHTML = doc.data().nombre + ' está llamando...'
-		document.getElementById("entendido-button").disabled = false;
-		document.getElementById("entendido-button").innerHTML = "¡ENTENDIDO!";
-	}).catch(error => window.location.href = "/");
+	let callId = window.location.href.toLowerCase().replace("&", "").split("?callid=")
+	if (!callId[1]) { window.location.href = "/"; } else {
+		document.getElementById("avatar-src").setAttribute("src", "asset/feat/" + callId[1] + "/feature-img-sm.jpeg");
+		document.getElementById("feature-audio-src").setAttribute("src", "asset/feat/" + callId[1] + "/feature-audio.mp3");
+		db.collection("exhibiciones").doc(callId[1]).get().then(doc => {
+			document.getElementById("avatar-text").innerHTML = doc.data().nombre + ' está llamando...'
+			document.getElementById("entendido-button").disabled = false;
+			document.getElementById("entendido-button").innerHTML = "¡ENTENDIDO!";
+		}).catch(error => window.location.href = "/");
+	}
 
 	function triggerLlamada() {
 		document.getElementById("phone-ring").play();

@@ -6,6 +6,11 @@
         "source": "/",
         "destination": "/about.html",
         "type": 301
+      },
+      {
+        "source": "/poster",
+        "destination": "/llamada.html?callId=poster",
+        "type": 301
       }
     ],
     "ignore": [
