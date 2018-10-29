@@ -89,14 +89,13 @@
 	document.getElementById("contenido").setAttribute('dynamic-src', 'asset/feat/' + callId[1] + '/contenido.html');
 	loadExternalHTML();
 
-	db.collection("exhibiciones").get().then((snapshot) => {
-
+	db.collection("exhibiciones").get().then(function(snapshot) {
 		let cantEstatuas, cantEstatuasVisitadas;
 		cantEstatuas = snapshot.docs.length;
 		cantEstatuasVisitadas = currentUserData.visitados.length;
 		document.getElementById("progreso-estatuas").innerHTML = cantEstatuasVisitadas + " de " + cantEstatuas + " estatuas visitadas";
 
-		snapshot.docs.forEach(exhibicion => {
+		snapshot.docs.forEach(function(exhibicion) {
 			let fueVisitado = visitado(exhibicion.id);
 			let template = `
 			<li class="w3-bar">
