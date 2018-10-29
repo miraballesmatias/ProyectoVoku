@@ -64,9 +64,10 @@
 		</div>
 
 		<div class="w3-animate-opacity">
-			<button class="w3-display-bottomleft w3-button w3-circle w3-green botonLlamada" onclick="contestar(); this.disabled = true"><i
+			<button id="btnContestar" class="w3-btn w3-display-bottomleft w3-button w3-circle w3-green botonLlamada"
+			 ontouchstart="registerCurrentCoordenates(event);" ontouchmove="touchHandler(event);" ontouchend="touchRelease(this);"><i
 				 class="fas fa-phone fa-3x"></i></button>
-			<button class="w3-display-bottomright w3-button w3-circle w3-red botonLlamada" onclick="cortar(1); this.disabled = true"><i
+			<button class="w3-display-bottomright w3-button w3-circle w3-red botonLlamada" onclick="cortar(); this.disabled = true"><i
 				 class="fas fa-phone fa-3x" style="transform: rotate(225deg)"></i></button>
 		</div>
 	</div>
@@ -76,7 +77,7 @@
 		<audio id="phone-ring" onended="this.currentTime = 0;this.play();">
 			<source src="asset/audio/phone-ring.mp3" type="audio/mpeg">
 		</audio>
-		<audio id="feature-audio" ontimeupdate="timeupdate(this.currentTime)" onended="cortar(3);">
+		<audio id="feature-audio" ontimeupdate="timeupdate(this.currentTime)" onended="cortar();">
 			<source id="feature-audio-src" type="audio/mpeg">
 		</audio>
 		<i class="fas fa-phone fa-3x"></i>
@@ -84,8 +85,56 @@
 </body>
 
 <script>
+	var Xo, Yo;
+	var flagAnswering = false;
+
+	function registerCurrentCoordenates(event) {	//guarda las coordenadas al momento de hacer click
+		//console.log("click");
+		Xo = event.touches[0].clientX;
+		Yo = event.touches[0].clientY;
+		//console.log("starting Xo: " + Xo + " Yo: " + Yo);
+	}
+
+	function touchRelease(buton) {
+		if (!flagAnswering) {
+			flagAnswering=true;
+			butn.disabled =true;
+			contestar();
+		}
+	}
+
+	function touchHandler(event) {
+		if (!flagAnswering) {
+
+			if (!this.disabled) {
+				this.disabled = true;
+				//console.log("agrandando");
+				console.log("this.disabled:" + this.disabled);
+				agrandar(this);
+			}
+
+			x = event.touches[0].clientX;
+			y = event.touches[0].clientY;
+
+			if ((parseInt(x) - parseInt(Xo)) > 60) {	//Si arrastró lo suficiente, se contesta la llamada
+				flagAnswering = true;
+				contestar();
+			}
+		}
+	}
+
+	function agrandar(element) {
+
+		document.getElementById("btnContestar").style.transform = 'scale(2)';
+	}
+
+	function myFunction(event) {
+		var x = event.touches[0].clientX;
+		var y = event.touches[0].clientY;
+		document.getElementById("btnContestar").innerHTML = x + ", " + y;
+	}
+
 	//Ejecuta al ingresar al sitio
-	let tiempoEscuchado = 0;
 	let callId = window.location.href.toLowerCase().split("callid=")
 	if (!callId[1]) { window.location.href = "/" }
 	document.getElementById("avatar-src").setAttribute("src", "asset/feat/" + callId[1] + "/feature-img-sm.jpeg");
@@ -112,30 +161,17 @@
 	function timeupdate(tiempo) {
 		let contador = document.getElementById("counter");
 		contador.innerHTML = obtenerString(tiempo);
-		tiempoEscuchado = tiempo;
-	}
-																												
-	function cortar(interaccion) {
-		if ((interaccion == 1) && (tiempoEscuchado)) { interaccion == 2 }
-		grabarVisita(interaccion).then(_ => { window.location.href = '/detalle.html?callId=' + callId[1] })	
 	}
 
-	function grabarVisita(interaccion) {
+	function cortar() {
+		grabarVisita().then(_ => { window.location.href = '/detalle.html?callId=' + callId[1] })
+	}
+
+	function grabarVisita() {
 		if (!currentUserData.visitados) { currentUserData.visitados = [] }
-		if (!currentUserData.accesos) { currentUserData.accesos = [] }
-
-		var acceso = {
-			fecha: firebase.firestore.FieldValue.serverTimestamp(),
-			exhibicion: callId[1],
-			interaccion: interaccion,
-			tiempo_invertido: tiempoEscuchado
-		};
-
-		return db.collection("users").doc(vokuId).collection("accesos").add(acceso).then(() => {
-			if (!currentUserData.visitados.includes(callId[1])) {
-				return db.collection("users").doc(vokuId).update({ visitados: currentUserData.visitados.concat(callId[1]) })
-			} else { return { then: (f) => f() } }
-		})
+		if (!currentUserData.visitados.includes(callId[1])) {
+			return db.collection("users").doc(vokuId).update({ visitados: currentUserData.visitados.concat(callId[1]) })
+		} else { return { then: (f) => f() } }
 	}
 
 	// Utilities
