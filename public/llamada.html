@@ -121,6 +121,7 @@
 	}
 
 	function grabarVisita(interaccion) {
+		if (!currentUserData) { currentUserData = {} }
 		if (!currentUserData.visitados) { currentUserData.visitados = [] }
 		if (!currentUserData.accesos) { currentUserData.accesos = [] }
 

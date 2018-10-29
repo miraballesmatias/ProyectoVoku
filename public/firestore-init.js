@@ -7,7 +7,7 @@ if (!vokuId) { db.collection("users").add(emptyUser()).then(updateUserInfo) }
 else {
     db.collection("users").doc(vokuId).get().then(docRef => {
         if (docRef.exists) { currentUserData = docRef.data(); return; }
-        db.collection("users").doc(vokuId).set(emptyUser()).then(updateUserInfo)
+        db.collection("users").doc(vokuId).set(emptyUser()).then(_ => currentUserData = emptyUser())
     })
 }
 
