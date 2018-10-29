@@ -90,11 +90,11 @@
 	if (!callId[1]) { window.location.href = "/" }
 	document.getElementById("avatar-src").setAttribute("src", "asset/feat/" + callId[1] + "/feature-img-sm.jpeg");
 	document.getElementById("feature-audio-src").setAttribute("src", "asset/feat/" + callId[1] + "/feature-audio.mp3");
-	db.collection("exhibiciones").doc(callId[1]).get().then(function (doc) {
+	db.collection("exhibiciones").doc(callId[1]).get().then(doc => {
 		document.getElementById("avatar-text").innerHTML = doc.data().nombre + ' está llamando...'
 		document.getElementById("entendido-button").disabled = false;
 		document.getElementById("entendido-button").innerHTML = "¡ENTENDIDO!";
-	}).catch(function (error) { window.location.href = "/" });
+	}).catch(error => window.location.href = "/");
 
 	function triggerLlamada() {
 		document.getElementById("phone-ring").play();
@@ -117,7 +117,7 @@
 
 	function cortar(interaccion) {
 		if ((interaccion == 1) && (tiempoEscuchado)) { interaccion == 2 }
-		grabarVisita(interaccion).then(function () { window.location.href = '/detalle.html?callId=' + callId[1] })
+		grabarVisita(interaccion).then(_ => window.location.href = '/detalle.html?callId=' + callId[1])
 	}
 
 	function grabarVisita(interaccion) {
@@ -134,7 +134,7 @@
 		return db.collection("users").doc(vokuId).collection("accesos").add(acceso).then(function () {
 			if (!currentUserData.visitados.includes(callId[1])) {
 				return db.collection("users").doc(vokuId).update({ visitados: currentUserData.visitados.concat(callId[1]) })
-			} else { return { then: function (f) { f() } } }
+			} else { return { then: f => f() } }
 		})
 	}
 

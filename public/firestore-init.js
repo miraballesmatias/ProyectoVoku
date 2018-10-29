@@ -5,7 +5,7 @@ var currentUserData = null
 vokuId = tryGetFromStorage()
 if (!vokuId) { db.collection("users").add(emptyUser()).then(updateUserInfo) }
 else {
-    db.collection("users").doc(vokuId).get().then(function (docRef) {
+    db.collection("users").doc(vokuId).get().then(docRef => {
         if (docRef.exists) { currentUserData = docRef.data(); return; }
         db.collection("users").doc(vokuId).set(emptyUser()).then(updateUserInfo)
     })
