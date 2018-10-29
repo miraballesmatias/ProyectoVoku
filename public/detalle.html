@@ -59,6 +59,9 @@
 			<iframe src="https://www.google.com/maps/d/embed?mid=14OdnNPEYoDHImU-XVt_duFaLPlLOk42f" width="100%" style="height: calc(100vw - 32px)"></iframe>
 		</div>
 		<ul id="list-exhibiciones" class="w3-ul"></ul>
+		<div class="w3-container w3-center">
+			<p id="progreso-estatuas" class="w3-opacity"></p>
+		</div>
 	</main>
 
 	<footer class="w3-purple w3-center w3-padding">
@@ -87,14 +90,20 @@
 	loadExternalHTML();
 
 	db.collection("exhibiciones").get().then((snapshot) => {
-		snapshot.docs.forEach(exhibición => {
-			let fueVisitado = visitado(exhibición.id);
+
+		let cantEstatuas, cantEstatuasVisitadas;
+		cantEstatuas = snapshot.docs.length;
+		cantEstatuasVisitadas = currentUserData.visitados.length;
+		document.getElementById("progreso-estatuas").innerHTML = cantEstatuasVisitadas + " de " + cantEstatuas + " estatuas visitadas";
+
+		snapshot.docs.forEach(exhibicion => {
+			let fueVisitado = visitado(exhibicion.id);
 			let template = `
 			<li class="w3-bar">
-				<img src="asset/feat/${exhibición.id}/feature-img-xsm.jpeg" class="w3-bar-item w3-circle" style="width:85px">
+				<img src="asset/feat/${exhibicion.id}/feature-img-xsm.jpeg" class="w3-bar-item w3-circle" style="width:85px">
 				<div class="w3-bar-item">					
 					${fueVisitado ?
-					`<span class="w3-large">${exhibición.data().nombre}</span><br>
+					`<span class="w3-large">${exhibicion.data().nombre}</span><br>
 					 <span class="w3-tag w3-small w3-green">Visitado</span>` :
 					`<span class="w3-large w3-text-grey">-----------------</span><br>
 					 <span class="w3-tag w3-small w3-dark-gray w3-opacity">Sin visitar</span>`}
